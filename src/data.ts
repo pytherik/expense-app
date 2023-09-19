@@ -1,9 +1,3 @@
-// enum declares a set of named constants
-enum ReportType {
-  INCOME = 'income',
-  EXPENSE = 'expense',
-}
-
 // interface creates new custom datatype Data
 interface Data {
   report: {
@@ -16,15 +10,45 @@ interface Data {
   }[];
 }
 
-export const data: Data = {
-  report: [],
-};
+// enum declares a set of named constants
+export enum ReportType {
+  INCOME = 'income',
+  EXPENSE = 'expense',
+}
 
-data.report.push({
-  id: 'uuid',
-  source: 'Salary',
-  amount: 7500,
-  created_at: new Date(),
-  updated_at: new Date(),
-  type: ReportType.EXPENSE,
-});
+export const data: Data = {
+  report: [
+    {
+      id: 'uuid1',
+      source: 'BBQ',
+      amount: 1500,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.INCOME,
+    },
+    {
+      id: 'uuid2',
+      source: 'Salary',
+      amount: 7500,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.INCOME,
+    },
+    {
+      id: 'uuid3',
+      source: 'EDEKA',
+      amount: 500,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.EXPENSE,
+    },
+    {
+      id: 'uuid5',
+      source: 'TV',
+      amount: 700,
+      created_at: new Date(),
+      updated_at: new Date(),
+      type: ReportType.EXPENSE,
+    },
+  ],
+};

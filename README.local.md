@@ -38,3 +38,9 @@ export class AppController {
   }
 }
 ```
+
+## further installs
+
+```bash
+$ npm i uuid @types/uuid
+```
