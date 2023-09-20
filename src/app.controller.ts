@@ -6,9 +6,11 @@ import {
   Param,
   Post,
   Put,
+  HttpCode,
 } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { data, ReportType } from './data';
+
 interface TransferData {
   source: string;
   amount: number;
@@ -50,28 +52,35 @@ export class AppController {
     console.log(newReport);
     return 'created';
   }
+
   @Put(':id')
   updateReport(
-    @Body() { source, amount }: TransferData,
     @Param('id') id: string,
     @Param('type') type: string,
+    @Body() body: TransferData,
   ) {
     const reportType =
       type === 'income' ? ReportType.INCOME : ReportType.EXPENSE;
-    const updatedReport = data.report.filter((report) => {
-      if (report.id === id) {
-        report.source = source;
-        report.amount = amount;
-        report.updated_at = new Date();
-        report.type = reportType;
-        return report;
-      }
-    });
-    console.log(updatedReport);
-    return 'updated ' + id;
+    const reportToUpdate = data.report
+      .filter((report) => report.type === reportType)
+      .find((report) => report.id === id);
+    if (!reportToUpdate) return 'no dataset found';
+    const reportIndex = data.report.findIndex(
+      (report) => report.id === reportToUpdate.id,
+    );
+    data.report[reportIndex] = {
+      ...data.report[reportIndex],
+      ...body,
+    };
+    return data.report[reportIndex];
   }
+
+  @HttpCode(204)
   @Delete(':id')
   deleteReport(@Param('id') id: string) {
+    const reportIndex = data.report.findIndex((report) => report.id === id);
+    if (reportIndex === -1) return;
+    data.report.splice(reportIndex, 1);
     return 'deleted ' + id;
   }
 }
