@@ -9,7 +9,15 @@ interface Data {
     type: ReportType;
   }[];
 }
+export interface Report {
+  source: string;
+  amount: number;
+}
 
+export interface UpdateReport {
+  source?: string;
+  amount?: number;
+}
 // enum declares a set of named constants
 export enum ReportType {
   INCOME = 'income',
