@@ -6,13 +6,16 @@ import { ReportResponseDto } from './dto/report.dto';
 @Injectable()
 export class AppService {
   getAllReports(reportType: ReportType): ReportResponseDto[] {
-    return data.report.filter((report) => report.type === reportType);
+    return data.report
+      .filter((report) => report.type === reportType)
+      .map((report) => new ReportResponseDto(report));
   }
 
   getReportById(id: string, reportType: ReportType): ReportResponseDto {
-    return data.report
+    const reportById = data.report
       .filter((report) => report.type === reportType)
       .find((report) => report.id === id);
+    return new ReportResponseDto(reportById);
   }
 
   createReport(
@@ -28,7 +31,7 @@ export class AppService {
       type,
     };
     data.report.push(newReport);
-    return newReport;
+    return new ReportResponseDto(newReport);
   }
 
   updateReport(
@@ -48,7 +51,7 @@ export class AppService {
       ...body,
       updated_at: new Date(),
     };
-    return data.report[reportIndex];
+    return new ReportResponseDto(data.report[reportIndex]);
   }
 
   deleteReport(id: string) {
